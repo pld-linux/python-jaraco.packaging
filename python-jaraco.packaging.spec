@@ -3,7 +3,7 @@
 %bcond_without	doc	# Sphinx documentation
 %bcond_without	tests	# unit tests
 %bcond_without	python2 # CPython 2.x module
-%bcond_with	python3 # CPython 3.x module
+%bcond_with	python3 # CPython 3.x module (built from python3-jaraco.packaging.spec)
 
 %define		egg_name	jaraco.packaging
 %define		pypi_name	jaraco.packaging
@@ -43,8 +43,8 @@ BuildRequires:	python3-six >= 1.4
 %endif
 %endif
 %if %{with doc}
-BuildRequires:	python3-rst.linker >= 1.9
-BuildRequires:	sphinx-pdg-3
+BuildRequires:	python-rst.linker >= 1.9
+BuildRequires:	sphinx-pdg-2
 %endif
 Requires:	python-jaraco
 Requires:	python-modules >= 1:2.7
@@ -97,7 +97,7 @@ Dokumentacja API modułu Pythona jaraco.packaging.
 # no Makefile
 cd docs
 PYTHONPATH=$(pwd)/.. \
-sphinx-build-3 -b html . _build/html
+sphinx-build-2 -b html . _build/html
 %endif
 
 %install
@@ -110,6 +110,9 @@ rm -rf $RPM_BUILD_ROOT
 
 # packaged in python-jaraco.spec
 %{__rm} $RPM_BUILD_ROOT%{py_sitescriptdir}/jaraco/__init__.py*
+
+# packaged in python3 variant only
+%{__rm} $RPM_BUILD_ROOT%{_bindir}/{dependency-tree,upload-package}
 %endif
 
 %if %{with python3}
